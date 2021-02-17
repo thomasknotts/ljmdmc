@@ -1,0 +1,56 @@
+/* Copyright (C) 2017 Thomas Allen Knotts IV - All Rights Reserved          */
+/* This file is part of the program ljmcmd                                  */
+/*                                                                          */
+/* ljmcmd is free software: you can redistribute it and/or modify           */
+/* it under the terms of the GNU General Public License as published by     */
+/* the Free Software Foundation, either version 3 of the License, or        */
+/* (at your option) any later version.                                      */
+/*                                                                          */
+/* ljmcmd is distributed in the hope that it will be useful,                */
+/* but WITHOUT ANY WARRANTY; without even the implied warranty of           */
+/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            */
+/* GNU General Public License for more details.                             */
+/*                                                                          */
+/* You should have received a copy of the GNU General Public License        */
+/* along with ljmcmd.  If not, see <http://www.gnu.org/licenses/>.          */
+
+/* ======================================================================== */
+/* README                                                                   */
+/* ======================================================================== */
+
+ljmdmc is a program that performs Molecular Dynamics (MD) and Monte Carlo (MC)
+simulations with a Lennard Jones fluid.
+
+COMPILING THE PROGRAM
+The program has been designed to be compiled on both Windows and Linux 
+systems.
+
+*Windows*
+The program can be opened in Visual Studio 2015 and later by opening the 
+project file called ljmdmc.sln.  The program can then be compiled 
+following normal Visual Studio procedures.
+
+*Linux*
+The program can be compiled using the gcc compiler via the Linux command 
+line using the GNU make utility and the included makefile with the following
+command.
+
+user@computer]$ make
+
+This will create an executable named ljmdmc in the same folder.  The previous
+compile can be cleaned with the following command.
+
+user@computer]$ make clean
+
+The makefile can be edited to use the Intel icc compiler if desired.
+
+RUNNING THE PROGRAM
+The program is run from the command line and requires two arguments--the name
+of the input file and the name of the output file.  For example, for an input
+file arbitrarily named simulation.input and an output file arbitrarily named
+simulation.output, the program would be run with the following command
+
+user@computer]$ ./ljmdmc simulation.input simulation.output
+
+This command can also be placed in a submission script when submitting the 
+program as a batch job on a computer cluster.  
