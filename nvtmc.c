@@ -122,14 +122,14 @@ int nvtmc()
       aprop.pe += iprop.pe;
       aprop.virial += iprop.virial;
       aprop.pe2 += iprop.pe2;
-
-      if (sim.rdf)//accumulate the rdf if specified in the input file (production steps only)
+    }
+	
+	if (sim.rdf)//accumulate the rdf if specified in the input file (production steps only)
+    {
+      if (i%sim.rdf == 0)
       {
-        if (i%sim.rdf == 0)
-        {
-          Nrdfcalls += 1;
-          rdf_accumulate(hrdf);
-        }
+        Nrdfcalls += 1;
+        rdf_accumulate(hrdf);
       }
     }
 

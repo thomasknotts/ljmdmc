@@ -63,7 +63,7 @@ int initialize_counters(void)
   {
     if (sim.rdfmax > sim.length / 2.0)
     {
-      fprintf(stdout, "The max length of the rdf cannot be greater than half the box length.\n");
+      fprintf(stdout, "The max length of the rdf cannot be greater than half the box length (L/2=%.3lf).\n",sim.length/2.0);
       exit(10);
     }
     tak_histogram* rdf;
