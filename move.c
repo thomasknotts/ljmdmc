@@ -34,14 +34,14 @@ double atomic_pe(unsigned long, double, double, double);
 bool move(void)
 {
 	double xnew, ynew, znew;
-  double peold, penew, de;
-	unsigned long particle;
+	double peold, penew, de;
+    unsigned long particle;
 	
   /* ------------------------------------------------------------------- */
   /*  Select a random particle and propose a random move                 */
   /* ------------------------------------------------------------------- */
 	iprop.ntrys += 1;
-  particle = ran_num_int(0.0, (double)sim.N);
+    particle = ran_num_int(0.0, (double)sim.N);
 	xnew = atom[particle].x + ran_num_double(1, -1, 1)*sim.dt;
 	ynew = atom[particle].y + ran_num_double(1, -1, 1)*sim.dt;
 	znew = atom[particle].z + ran_num_double(1, -1, 1)*sim.dt;

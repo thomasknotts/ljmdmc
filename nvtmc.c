@@ -32,17 +32,30 @@ void   scale_delta(void);
 int nvtmc()
 {
   unsigned long i, j;
-  double P;
+  double P, Pave;
+  int freq_scale_delta = 100;
   FILE *fp;
   aprop.Nhist = 0;
   double Nrdfcalls;
   tak_histogram *hrdf = NULL;
+
+  /* ============================================ */
+  /* Write Interation 0 and write to file.        */
+  /* ============================================ */
+  // Note, pe and virial were calculated in main() for the
+  // initial configuration. They were stored in iprop.
+  P = sim.rho * sim.T + 1.0 / 3.0 / pow(sim.length, 3.0) * iprop.virial / (double)(sim.N) + sim.ptail;
+  fp = fopen(sim.outputfile, "a");
+  fprintf(fp, "%-13lu    %13.6lf    %13.6lf    %13.6lf\n", (unsigned long)0, P, P, iprop.pe / (double)sim.N + sim.utail);
+  fflush(fp);
+  fclose(fp);
 
   /* ------------------------------------------------------------------- */
   /*  Perform equilibration steps                                        */
   /* ------------------------------------------------------------------- */
   for (i = 1; i <= sim.eq; i++)
   {
+             
     for (j = 0; j < sim.N; j++) // This loop performs sim.N moves per interation
     {
       move();
@@ -61,9 +74,10 @@ int nvtmc()
     /* ============================================ */
     if (i%sim.output == 0)
     {
-      P = sim.rho*sim.T + 1.0 / 3.0 / pow(sim.length, 3.0)*aprop.virial / (double)(i)/(double)(sim.N) + sim.ptail;
+      Pave = sim.rho*sim.T + 1.0 / 3.0 / pow(sim.length, 3.0)*aprop.virial / (double)(i)/(double)(sim.N) + sim.ptail;
+      P = sim.rho * sim.T + 1.0 / 3.0 / pow(sim.length, 3.0) * iprop.virial / (double)(sim.N) + sim.ptail;
       fp = fopen(sim.outputfile, "a");
-      fprintf(fp, "%-13lu\t%13.6lf\t%13.6lf\n", i, P, iprop.pe / (double)sim.N + sim.utail);
+      fprintf(fp, "%-13lu    %13.6lf    %13.6lf    %13.6lf\n", (unsigned long)i, P, Pave, iprop.pe / (double)sim.N + sim.utail);
       fflush(fp);
       fclose(fp);
       fprintf(stdout, "Equilibrium Step %-lu\n", i);
@@ -72,7 +86,7 @@ int nvtmc()
     /* ============================================ */
     /*  Scale delta to obtain 30% acceptance        */
     /* ============================================ */
-    if (i % 100 == 0) scale_delta();
+    if (i % freq_scale_delta == 0) scale_delta();
 
     /* ============================================ */
     /*  Write the movie file at the intervals       */
@@ -89,6 +103,8 @@ int nvtmc()
   /* ------------------------------------------------------------------- */
   iprop.ntrys = 0;
   iprop.naccept = 0;
+  aprop.ntrys = 0;
+  aprop.naccept = 0;
   aprop.pe = 0.0;
   aprop.virial = 0.0;
   aprop.pe2 = 0.0;
@@ -139,18 +155,19 @@ int nvtmc()
     /* ============================================ */
     if (i%sim.output == 0)
     {
-      P = sim.rho*sim.T + 1.0 / 3.0 / pow(sim.length, 3.0)*aprop.virial / (double)(i)/(double)(sim.N) + sim.ptail;
+      Pave = sim.rho * sim.T + 1.0 / 3.0 / pow(sim.length, 3.0) * aprop.virial / (double)(i) / (double)(sim.N) + sim.ptail;
+      P = sim.rho * sim.T + 1.0 / 3.0 / pow(sim.length, 3.0) * iprop.virial / (double)(sim.N) + sim.ptail;
       fp = fopen(sim.outputfile, "a");
-      fprintf(fp, "%-13lu\t%13.6lf\t%13.6lf\n", i, P, iprop.pe / (double)sim.N + sim.utail);
+      fprintf(fp, "%-13lu    %13.6lf    %13.6lf    %13.6lf\n", (unsigned long)i, P, Pave, iprop.pe / (double)sim.N + sim.utail);
       fflush(fp);
       fclose(fp);
       fprintf(stdout, "Production Step %-lu\n", i);
     }
 
     /* ============================================ */
-    /*  Scale delta to obtain 30% acceptance        */
+    /*  Scale delta to obtain desired acceptance    */
     /* ============================================ */
-    if (i % 100 == 0) scale_delta();                
+    if (i % freq_scale_delta == 0) scale_delta();                
 
     /* ============================================ */
     /*  Write the movie file at the intervals       */

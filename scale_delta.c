@@ -18,32 +18,34 @@
 /* scale_delta.c                                                            */
 /*                                                                          */
 /* This function adjusts the maximum displacement for the MC                */
-/* simulation to obtain an acceptance ratio of 30%.                         */
+/* simulation to obtain an acceptance ratio of 30%. The desired ratio can   */
+/* be changed by seting 'dratio' to something other than 0.3.               */
 /* ======================================================================== */
 
 #include "includes.h"
 
 int scale_delta(void)
 {
+	double dratio = 0.3;
 	double ratio;
 	
 	ratio = ((double)iprop.naccept)/((double)iprop.ntrys);
 	
 	if (sim.dt < 2.0) 
 	{
-		if ((ratio < .28) || (ratio > .32))
+		if ((ratio < dratio - 0.02) || (ratio > dratio + 0.02))
 		{
-			if (ratio<0.3) 	
+			if (ratio < dratio) 	
 				sim.dt = sim.dt*.95;
-			if (ratio >0.3)
+			if (ratio > dratio)
 				sim.dt = sim.dt*1.05;
 		}
 	}
 
   aprop.naccept += iprop.naccept;
   aprop.ntrys += iprop.ntrys;
-	iprop.naccept = 0;
-	iprop.ntrys = 0;
+  iprop.naccept = 0;
+  iprop.ntrys = 0;
 
   return(0);
 }

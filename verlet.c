@@ -31,7 +31,7 @@
 /* ------------------------------------------------------------------- */
 int verlet1(void)
 {
-	unsigned long i;
+  unsigned long i;
   double dx, dy, dz;
 	
   for(i=0; i<sim.N; i++)

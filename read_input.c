@@ -491,7 +491,7 @@ int read_input(char* fn_i, char* fn_o, char* input_errors)
     return(ERROR_INPUT_FILE);
   }
 
-  if (!(output_flag*movie_flag*seed_flag*coord_flag*vel_flag))
+  if (!(output_flag) || !(movie_flag) || !(seed_flag) || !(coord_flag) || !(vel_flag))
   {
     if (keyword_flag)
     {

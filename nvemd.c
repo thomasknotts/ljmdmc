@@ -36,10 +36,21 @@ int nvemd()
 {
   unsigned long i;
   unsigned long rescale_freq = 100;
-  double ke, pe, T, P;
+  double ke, pe, T, P, Pave;
   double Nrdfcalls;
   tak_histogram *hrdf=NULL;
   FILE *fp;
+
+  /* ============================================ */
+  /* Write Interation 0 and write to file.        */
+  /* ============================================ */
+  // Note, pe and virial were calculated in main() for the
+  // initial configuration. They were stored in iprop.
+  P = sim.rho * iprop.T + 1.0 / 3.0 / pow(sim.length, 3.0) * iprop.virial + sim.ptail;
+  fp = fopen(sim.outputfile, "a");
+  fprintf(fp, "%-13lu    %13.6lf    %13.6lf    %13.6lf    %13.6lf    %13.6lf    %13.6lf    %13.6lf\n", (unsigned long)0, iprop.T, iprop.T, P, P, iprop.ke / (double)sim.N, iprop.pe / (double)sim.N + sim.utail, (iprop.ke + iprop.pe) / (double)sim.N + sim.utail);
+  fflush(fp);
+  fclose(fp);
 
   /* ------------------------------------------------------------------- */
   /*  Perform equilibration steps                                        */
@@ -64,16 +75,16 @@ int nvemd()
 
 	  /* ============================================ */
 	  /*  Output instantaneous properties at          */
-    /*  the interval specified in the input file    */
+      /*  the interval specified in the input file    */
 	  /* ============================================ */
     if (i%sim.output == 0)
     {
-      P = sim.rho*aprop.T / rescale_freq + 1.0 / 3.0 / pow(sim.length, 3.0)*aprop.virial / (double)(sim.output) + sim.ptail;
+      P = sim.rho * iprop.T + 1.0 / 3.0 / pow(sim.length, 3.0) * iprop.virial + sim.ptail;
+      Pave = sim.rho * aprop.T / (double)i + 1.0 / 3.0 / pow(sim.length, 3.0) * aprop.virial / (double)i + sim.ptail;
       fp = fopen(sim.outputfile, "a");
-      fprintf(fp, "%-13lu\t%13.6lf\t%13.6lf\t%13.6lf\t%13.6lf\t%13.6lf\n", i, iprop.T, P, iprop.ke/(double)sim.N, iprop.pe / (double)sim.N + sim.utail, (iprop.ke + iprop.pe) / (double)sim.N+sim.utail);
+      fprintf(fp, "%-13lu    %13.6lf    %13.6lf    %13.6lf    %13.6lf    %13.6lf    %13.6lf    %13.6lf\n", (unsigned long)i, iprop.T, aprop.T/(double)i, P, Pave, iprop.ke/(double)sim.N, iprop.pe / (double)sim.N + sim.utail, (iprop.ke + iprop.pe) / (double)sim.N + sim.utail);
       fflush(fp);
       fclose(fp);
-      aprop.virial = 0.0;
       fprintf(stdout, "Equilibration Step %-lu\n", i);
     }
     
@@ -85,8 +96,7 @@ int nvemd()
     /* ============================================ */
     if (i % rescale_freq == 0)
     {
-      scale_velocities(aprop.T/100);
-      aprop.T = 0.0;
+      scale_velocities(aprop.T/(double)i);
     }
 
     /* ============================================ */
@@ -103,6 +113,8 @@ int nvemd()
   /* ------------------------------------------------------------------- */
   /*  Reset accumulators for production steps                            */
   /* ------------------------------------------------------------------- */
+  aprop.pe = 0.0;
+  aprop.ke = 0.0;
   aprop.T = 0.0;
   aprop.virial = 0.0;
   for (i = 0; i < sim.N; i++) {
@@ -159,14 +171,15 @@ int nvemd()
     }
 
     /* ============================================ */
-	  /*  Output instantaneous properties at          */
+	/*  Output instantaneous properties at          */
     /*  the interval specified in the input file    */
-	  /* ============================================ */
+	/* ============================================ */
     if (i%sim.output == 0)
     {
-      P = sim.rho*aprop.T / (double)(i) + 1.0 / 3.0 / pow(sim.length, 3.0)*aprop.virial / (double)(i) + sim.ptail;
+      P = sim.rho * iprop.T + 1.0 / 3.0 / pow(sim.length, 3.0) * iprop.virial + sim.ptail;
+      Pave = sim.rho * aprop.T / (double)i + 1.0 / 3.0 / pow(sim.length, 3.0) * aprop.virial / (double)i + sim.ptail;
       fp = fopen(sim.outputfile, "a");
-      fprintf(fp, "%-13lu\t%13.6lf\t%13.6lf\t%13.6lf\t%13.6lf\t%13.6lf\n", i, iprop.T, P, iprop.ke / (double)sim.N, iprop.pe / (double)sim.N + sim.utail, (iprop.ke + iprop.pe) / (double)sim.N + sim.utail);
+      fprintf(fp, "%-13lu    %13.6lf    %13.6lf    %13.6lf    %13.6lf    %13.6lf    %13.6lf    %13.6lf\n", (unsigned long)i, iprop.T, aprop.T / (double)i, P, Pave, iprop.ke / (double)sim.N, iprop.pe / (double)sim.N + sim.utail, (iprop.ke + iprop.pe) / (double)sim.N + sim.utail);
       fflush(fp);
       fclose(fp);
       fprintf(stdout, "Production Step    %-lu\n", i);

@@ -86,9 +86,9 @@ int initialize_files(char* input_errors)
   {
     fprintf(fp, "\n         ***INITIAL VELOCITIES***\n");
     for (i = 0; i < sim.N; i++) fprintf(fp, "\t%13.6lf\t%13.6lf\t%13.6lf\n", atom[i].vx, atom[i].vy, atom[i].vz);
-    fprintf(fp, "\n\nIteration         \tTemp         \tP            \tKE           \tPE           \tTotal Energy\n\n");
+    fprintf(fp, "\n\nIteration                T              T Ave.              P             P Ave.             KE               PE               TE\n\n");
   }
-  else   fprintf(fp, "\n\nIteration         \tP            \tPE\n\n");
+  else   fprintf(fp, "\n\nIteration                P              P Ave.             PE\n\n");
 
   fclose(fp);
 
