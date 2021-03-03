@@ -92,21 +92,21 @@ int finalize_file(tak_histogram *h, double Nrdfcalls)
   if (sim.pr > 0)
   {
     fprintf(fp, "\n***Simulation Averages***\n\n");
-    fprintf(fp, "Temperature:       %10.6lf\n", T);
-    fprintf(fp, "Pressure:          %10.6lf\n", P);
-    fprintf(fp, "Potential Energy:  %10.6lf\n", pe / N + sim.utail);
-    fprintf(fp, "Heat Capacity:     %10.6lf\n\n", cv);
+    fprintf(fp, "Temperature:              %10.6lf\n", T);
+    fprintf(fp, "Pressure:                 %10.6lf\n", P);
+    fprintf(fp, "Potential Energy:         %10.6lf\n", pe / N + sim.utail);
+    fprintf(fp, "Heat Capacity:            %10.6lf\n", cv);
     if (!strcmp(sim.type, "md"))
     {
-      fprintf(fp, "Kinetic Energy:    %10.6lf\n", ke / N);
-      fprintf(fp, "Total Energy:      %10.6lf\n", ((ke + pe) / N)+sim.utail);
-      fprintf(fp, "Diffusivity:       %10.6lf\n", Dmsd);
+      fprintf(fp, "Kinetic Energy:           %10.6lf\n", ke / N);
+      fprintf(fp, "Total Energy:             %10.6lf\n", ((ke + pe) / N)+sim.utail);
+      fprintf(fp, "Diffusivity:              %10.6lf\n\n", Dmsd);
     }
     if (!strcmp(sim.type, "mc"))
     {
         if (aprop.ntrys != 0)
         {
-            fprintf(fp, "MC Moves Accepted:        %10.6lf%%\n", (double)aprop.naccept / (double)aprop.ntrys * 100);
+            fprintf(fp, "Move Acceptance Rate:     %10.6lf\n", (double)aprop.naccept / (double)aprop.ntrys);
             fprintf(fp, "Final Max Displacement:   %10.6lf\n\n", sim.dt);
         }
     }

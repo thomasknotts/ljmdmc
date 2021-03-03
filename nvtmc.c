@@ -33,7 +33,7 @@ int nvtmc()
 {
   unsigned long i, j;
   double P, Pave;
-  int freq_scale_delta = 100;
+  int freq_scale_delta = 10;
   FILE *fp;
   aprop.Nhist = 0;
   double Nrdfcalls;
