@@ -42,7 +42,7 @@ CFLAGS = -O3 -std=c99 -Wall
 
 # Using icc
 #CC	= icc
-#CFLAGS = -O3 -ipo -no-prec-div -w -xW -axW -std=c99
+#CFLAGS = -O3 -fp-model precise -axCORE-AVX2 -xAVX -std=c99
 
 #-----------------------------------------------------------------------------
 # Library linking (this should always be uncommented)
