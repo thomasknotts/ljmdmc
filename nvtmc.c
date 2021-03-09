@@ -44,7 +44,7 @@ int nvtmc()
   /* ============================================ */
   // Note, pe and virial were calculated in main() for the
   // initial configuration. They were stored in iprop.
-  P = sim.rho * sim.T + 1.0 / 3.0 / pow(sim.length, 3.0) * iprop.virial / (double)(sim.N) + sim.ptail;
+  P = sim.rho * sim.T + 1.0 / 3.0 / pow(sim.length, 3.0) * iprop.virial + sim.ptail;
   fp = fopen(sim.outputfile, "a");
   fprintf(fp, "%-13lu    %13.6lf    %13.6lf    %13.6lf\n", (unsigned long)0, P, P, iprop.pe / (double)sim.N + sim.utail);
   fflush(fp);
@@ -74,8 +74,8 @@ int nvtmc()
     /* ============================================ */
     if (i%sim.output == 0)
     {
-      Pave = sim.rho*sim.T + 1.0 / 3.0 / pow(sim.length, 3.0)*aprop.virial / (double)(i)/(double)(sim.N) + sim.ptail;
-      P = sim.rho * sim.T + 1.0 / 3.0 / pow(sim.length, 3.0) * iprop.virial / (double)(sim.N) + sim.ptail;
+      Pave = sim.rho*sim.T + 1.0 / 3.0 / pow(sim.length, 3.0) * aprop.virial / (double)sim.N / (double)i + sim.ptail;
+      P = sim.rho * sim.T + 1.0 / 3.0 / pow(sim.length, 3.0) * iprop.virial + sim.ptail;
       fp = fopen(sim.outputfile, "a");
       fprintf(fp, "%-13lu    %13.6lf    %13.6lf    %13.6lf\n", (unsigned long)i, P, Pave, iprop.pe / (double)sim.N + sim.utail);
       fflush(fp);
@@ -155,8 +155,8 @@ int nvtmc()
     /* ============================================ */
     if (i%sim.output == 0)
     {
-      Pave = sim.rho * sim.T + 1.0 / 3.0 / pow(sim.length, 3.0) * aprop.virial / (double)(i) / (double)(sim.N) + sim.ptail;
-      P = sim.rho * sim.T + 1.0 / 3.0 / pow(sim.length, 3.0) * iprop.virial / (double)(sim.N) + sim.ptail;
+      Pave = sim.rho * sim.T + 1.0 / 3.0 / pow(sim.length, 3.0) * aprop.virial / (double)sim.N / (double)(i) + sim.ptail;
+      P = sim.rho * sim.T + 1.0 / 3.0 / pow(sim.length, 3.0) * iprop.virial + sim.ptail;
       fp = fopen(sim.outputfile, "a");
       fprintf(fp, "%-13lu    %13.6lf    %13.6lf    %13.6lf\n", (unsigned long)i, P, Pave, iprop.pe / (double)sim.N + sim.utail);
       fflush(fp);
