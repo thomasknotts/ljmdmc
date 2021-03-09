@@ -19,7 +19,7 @@ esteps      10000
 psteps      20000
 rcut        3.000000
 dt          0.100000
-coord       N500T85R9-equilibrated.cor
+coord       N500T085R09-equilibrated.cor
 rdf         0.800000  4.000000  100  25
 seed        -234
 output      50

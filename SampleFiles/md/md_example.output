@@ -16,8 +16,8 @@ esteps      400000
 psteps      600000
 rcut        3.000000
 dt          0.001000
-coord       N500T85R9-equilibrated.cor
-vel         N500T85R9-equilibrated.vel
+coord       N500T085R09-equilibrated.cor
+vel         N500T085R09-equilibrated.vel
 movie       lj.trr  4000
 rdf         0.800000  4.000000  100  25
 seed        generate
