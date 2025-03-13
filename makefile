@@ -34,7 +34,7 @@ EXEC = ljmdmc
 
 # Using gcc
 CC     = gcc
-CFLAGS = -O3 -std=c99 -Wall
+CFLAGS = -O3 -mavx -std=c99 -Wall
 
 # Debugging with gcc
 #CC     = gcc
