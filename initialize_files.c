@@ -76,8 +76,8 @@ int initialize_files(char* input_errors)
   else fprintf(fp, "seed        %ld\n", sim.seed);
   fprintf(fp, "output      %u\n\n", sim.output);
   fprintf(fp, "    ***Calculated Parameters***\n");
-  fprintf(fp, "Box Length:                %lf\n", sim.length);
-  fprintf(fp, "Half Box Length:           %lf\n", sim.length*0.5);
+  fprintf(fp, "Box Length:                 %lf\n", sim.length);
+  fprintf(fp, "Half Box Length:            %lf\n", sim.length*0.5);
   fprintf(fp, "Energy Tail Correction:    %lf\n", sim.utail);
   fprintf(fp, "Pressure Tail Correction:  %lf\n", sim.ptail);
 
