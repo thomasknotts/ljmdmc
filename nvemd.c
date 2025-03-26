@@ -35,7 +35,7 @@ void   write_trr(unsigned long, int);
 int nvemd()
 {
   unsigned long i;
-  unsigned long rescale_freq = 100;
+  unsigned long rescale_freq = 10;
   double ke, pe, T, P, Pave;
   double Nrdfcalls;
   tak_histogram *hrdf=NULL;

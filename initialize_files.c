@@ -30,11 +30,11 @@ int initialize_files(char* input_errors)
   char fileprefix[128];
 
   /* ------------------------------------------------------------------- */
-	/*  Initialize movie file.                                             */
+  /*  Initialize movie file.                                             */
   /* ------------------------------------------------------------------- */
 
 	if (sim.movie) //if want movie
-	{
+    {
     //reinitialize file 
     fp = fopen(sim.moviefile, "w");
     fclose(fp);
@@ -45,12 +45,12 @@ int initialize_files(char* input_errors)
     fprintf(fp, "%lu\nLoad this file in VMD before the .trr file\n", sim.N);
     for (i = 0; i<sim.N; i++) fprintf(fp, "C\t%13.6lf\t%13.6lf\t%13.6lf\n", atom[i].x, atom[i].y, atom[i].z);
     fclose(fp);
-	}
+    }
 
   /* ------------------------------------------------------------------- */
-	/* Write initial positions and velocities to the output file           */
+  /* Write initial positions and velocities to the output file           */
   /* ------------------------------------------------------------------- */
-	fp = fopen(sim.outputfile,"w");		
+  fp = fopen(sim.outputfile,"w");		
   fprintf(fp, "%s simulation of %lu LJ Particles at T*=%.4lf and rho*=%.4lf\n\n", sim.type, sim.N, sim.T, sim.rho);
   fprintf(fp, "Input File:         %s\n", sim.inputfile);
   fprintf(fp, "Output File:        %s\n\n", sim.outputfile);
@@ -75,6 +75,9 @@ int initialize_files(char* input_errors)
   if(!strcmp("generate", sim.seedkeyvalue)) fprintf(fp, "seed        %s\n", sim.seedkeyvalue);
   else fprintf(fp, "seed        %ld\n", sim.seed);
   fprintf(fp, "output      %u\n\n", sim.output);
+  fprintf(fp, "    ***Calculated Parameters***\n");
+  fprintf(fp, "Box Length:                %lf\n", sim.length);
+  fprintf(fp, "Half Box Length:           %lf\n", sim.length*0.5);
   fprintf(fp, "Energy Tail Correction:    %lf\n", sim.utail);
   fprintf(fp, "Pressure Tail Correction:  %lf\n", sim.ptail);
 
